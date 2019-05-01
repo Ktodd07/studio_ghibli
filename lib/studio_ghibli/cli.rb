@@ -1,4 +1,5 @@
 #CLI controller
+require 'pry'
 
 class String
 
@@ -17,8 +18,6 @@ class StudioGhibli::CLI
   def call
     sweet_ascii_greeting
     main_menu
-    user_input = gets.strip.downcase
-    validate(user_input)
   end
 
   def sweet_ascii_greeting
@@ -43,7 +42,23 @@ class StudioGhibli::CLI
     puts " "
   end
 
-  def main_menu
+  def sweet_ascii_farwell
+    puts " "
+    puts <<-DOC.red
+     _____
+    /     \\              SAYONARA!
+    vvvvvvv  /|__/|
+       I   /O,O   |
+       I /_____   |      /|/|
+       J/^ ^ ^ \\  |    /00  |    _//|
+       |^ ^ ^ ^ |W|   |/^^\\ |  /oo  |
+        \\m___m__|_|    \\m_m_|  \\mm_ |
+
+    DOC
+    puts " "
+  end
+
+  def print_main_menu
     puts " "
     puts "                  MAIN MENU".blue
     puts " "
@@ -53,7 +68,8 @@ class StudioGhibli::CLI
     puts " "
   end
 
-  def validate(user_input)
+  def valid_input
+    user_input = gets.strip.downcase
     until user_input == "about" || user_input == "films" || user_input == "exit"
       puts " "
       puts "Invalid Entry".red
@@ -62,7 +78,12 @@ class StudioGhibli::CLI
       puts " "
       user_input = gets.strip.downcase
     end
+    user_input
+  end
 
+  def main_menu
+    print_main_menu
+    user_input = valid_input
     if user_input == "about"
       puts " "
       puts "             ABOUT STUDIO GHIBLI".blue
@@ -72,18 +93,7 @@ class StudioGhibli::CLI
       puts "        STUDIO GHIBLI FILM COLLECTION".blue
       puts " "
     elsif user_input == "exit"
-      puts " "
-      puts <<-DOC.red
-       _____
-      /     \\              SAYONARA!
-      vvvvvvv  /|__/|
-         I   /O,O   |
-         I /_____   |      /|/|
-         J/^ ^ ^ \\  |    /00  |    _//|
-         |^ ^ ^ ^ |W|   |/^^\\ |  /oo  |
-          \\m___m__|_|    \\m_m_|  \\mm_ |
-
-      DOC
+      sweet_ascii_farwell
     end
   end
 end
