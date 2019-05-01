@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     studio_ghibli (0.1.0)
+      nokogiri (~> 1.6, >= 1.6.6.2)
 
 GEM
   remote: https://rubygems.org/

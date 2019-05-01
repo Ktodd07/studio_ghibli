@@ -85,9 +85,10 @@ class StudioGhibli::CLI
     print_main_menu
     user_input = valid_input
     if user_input == "about"
-      puts " "
-      puts "             ABOUT STUDIO GHIBLI".blue
-      puts " "
+      #call scraper
+
+      #make new bio object
+      about_menu
     elsif user_input == "films"
       puts " "
       puts "        STUDIO GHIBLI FILM COLLECTION".blue
@@ -95,5 +96,17 @@ class StudioGhibli::CLI
     elsif user_input == "exit"
       sweet_ascii_farwell
     end
+  end
+
+  def about_menu
+    puts " "
+    puts "             ABOUT STUDIO GHIBLI".blue
+    puts " "
+    puts "this is my sweet description"
+    puts " "
+    puts "Name".yellow + " Origin"
+    puts "History".yellow
+    puts "Animators".yellow + " and Character Designers"
+    puts "Links".yellow
   end
 end

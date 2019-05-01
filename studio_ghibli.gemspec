@@ -41,5 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "pry", "~> 0.10.3"
 
-  # spec.add_runtime_dependency 'example', '~> 1.1', '>= 1.1.4'
+  spec.add_dependency  'nokogiri', '~> 1.6', '>= 1.6.6.2'
 end
