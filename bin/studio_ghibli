@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require './lib/studio_ghibli'
+
+StudioGhibli::CLI.new.call
