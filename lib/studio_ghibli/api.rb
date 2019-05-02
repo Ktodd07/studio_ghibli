@@ -1,7 +1,7 @@
 class StudioGhibli::Api
 
-  def fetch_films
-    url = "https://ghibliapi.herokuapp.com/films"
+  def fetch(menu_item)
+    url = "https://ghibliapi.herokuapp.com/#{menu_item}"
     response = HTTParty.get(url)
     create_films(response)
   end
@@ -18,5 +18,11 @@ class StudioGhibli::Api
 
       StudioGhibli::Film.new(id, title, description, director, producer, release_date, rt_score)
     end
+  end
+
+  def fetch_people
+    url = "https://ghibliapi.herokuapp.com/people"
+    response = HTTParty.get(url)
+    create_films(response)
   end
 end

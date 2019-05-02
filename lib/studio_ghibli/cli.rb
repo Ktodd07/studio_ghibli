@@ -15,7 +15,6 @@ class StudioGhibli::Cli
 
   def call
     sweet_ascii_greeting
-    StudioGhibli::Api.new.fetch_films
     main_menu
   end
 
@@ -58,6 +57,44 @@ class StudioGhibli::Cli
   end
 
   def main_menu
+    print_main_menu
+    menu_item = gets.strip.downcase
+    if menu_item == "films"
+      StudioGhibli::Api.new.fetch(menu_item)
+      film_menu
+    elsif menu_item == 'people'
+    elsif menu_item == 'locations'
+    elsif menu_item == 'species'
+    elsif menu_item == 'vehicles'
+    elsif menu_item == 'exit'
+      sweet_ascii_farwell
+    else
+      puts " "
+      puts "Invalid entry".red
+      main_menu
+    end
+  end
+
+  def print_main_menu
+    puts " "
+    puts " "
+    puts "Which part of the Studio Ghibli Universe would you like to know more about?".blue
+    puts " "
+    puts "FLIMS".yellow
+    puts " "
+    puts "PEOPLE".yellow
+    puts " "
+    puts "LOCATIONS".yellow
+    puts " "
+    puts "SPECIES".yellow
+    puts " "
+    puts "VEHICLES".yellow
+    puts " "
+    puts " "
+    puts "EXIT".red
+  end
+
+  def film_menu
     puts " "
     puts "        STUDIO GHIBLI FILM COLLECTION".blue
     puts " "
@@ -65,11 +102,17 @@ class StudioGhibli::Cli
     puts " "
     StudioGhibli::Film.all.each.with_index(1) {|film, i| puts "#{i}.".blue + " #{film.title}".dark_green }
     puts " "
-    user_input = StudioGhibli::Film.find_by(valid_input)
-    sub_menu(user_input)
+    puts " "
+    puts "EXIT".red
+    input = valid_input
+    # binding.pry
+    if input != nil && input > 0
+      film = StudioGhibli::Film.find_by(input)
+      film_sub_menu(film)
+    end
   end
 
-  def sub_menu(film)
+  def film_sub_menu(film)
     puts " "
     puts "#{film.title}".upcase.red + " - ".blue + "#{film.release_date}"
     puts " "
@@ -81,22 +124,22 @@ class StudioGhibli::Cli
     puts " "
     puts "Rotten Tomatoes Score: ".blue + "#{film.rt_score}% ".red
 
-    back_or_exit
+    back_main_or_exit
   end
 
-  def back_or_exit
+  def back_main_or_exit
     puts " "
     puts " "
-    puts "Back".yellow + " for more films or " + "Exit".yellow
+    puts "Back".yellow + ", " +"Main".yellow + " Menu," + " or " + "Exit".red
     puts " "
     user_input = gets.strip.downcase
-
-
-    unless user_input == "back" || user_input == "exit"
+    unless user_input == "back" || user_input == "main" || user_input == "exit"
       puts "Invalid Entry".red
-      back_or_exit
+      back_main_or_exit
     end
     if user_input == "back"
+      film_menu
+    elsif user_input == "main"
       main_menu
     elsif user_input == "exit"
       sweet_ascii_farwell
@@ -104,16 +147,20 @@ class StudioGhibli::Cli
   end
 
   def valid_input
-    user_input = gets.strip.downcase.to_i
-    until user_input > 0
-      puts " "
-      puts "Invalid Entry".red
-      puts " "
-      puts "Please select a number from the menu"
-      puts " "
-      user_input = gets.strip.downcase.to_i
+    user_input = gets.strip.downcase
+    if user_input == 'exit'
+      sweet_ascii_farwell
+    else
+      user_input = user_input.to_i
+      until user_input > 0
+        puts " "
+        puts "Invalid Entry".red
+        puts " "
+        puts "Please select a number from the menu"
+        puts " "
+        valid_input
+      end
     end
-    user_input
+    user_input.to_i
   end
-
 end
