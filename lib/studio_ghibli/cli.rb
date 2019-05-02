@@ -18,6 +18,7 @@ class StudioGhibli::Cli
   def call
     sweet_ascii_greeting
     main_menu
+    #call api.new
   end
 
   def sweet_ascii_greeting
