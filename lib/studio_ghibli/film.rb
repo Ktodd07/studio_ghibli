@@ -1,4 +1,5 @@
 class StudioGhibli::Film
+  @@all = []
   attr_reader :id, :title, :description, :director, :producer, :release_date, :rt_score
 
   def initialize(id, title, description, director, producer, release_date, rt_score)
@@ -9,6 +10,17 @@ class StudioGhibli::Film
     @producer = producer,
     @release_date = release_date,
     @rt_score = rt_score
+
+    @@all << self
+  end
+
+  def self.all
+    @@all
+  end
+
+  def self.find_by(film_number)
+    index = film_number - 1
+    self.all[index]
   end
 
 end

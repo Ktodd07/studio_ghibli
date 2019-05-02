@@ -1,6 +1,4 @@
 #CLI controller
-require 'pry'
-
 class String
 
     def red; colorize(self, "\e[1m\e[31m"); end
@@ -17,8 +15,8 @@ class StudioGhibli::Cli
 
   def call
     sweet_ascii_greeting
+    StudioGhibli::Api.new.fetch_films
     main_menu
-    #call api.new
   end
 
   def sweet_ascii_greeting
@@ -63,60 +61,59 @@ class StudioGhibli::Cli
     puts " "
     puts "        STUDIO GHIBLI FILM COLLECTION".blue
     puts " "
-    puts "Which film would you like to know more about?"
-    @films.each.with_index(1) {|film, i| puts "#{i}. #{film}" }
-
+    puts "Which film number would you like to know more about?"
+    puts " "
+    StudioGhibli::Film.all.each.with_index(1) {|film, i| puts "#{i}.".blue + " #{film.title}".dark_green }
+    puts " "
+    user_input = StudioGhibli::Film.find_by(valid_input)
+    sub_menu(user_input)
   end
 
-  # def print_main_menu
-  #   puts " "
-  #   puts "                  MAIN MENU".blue
-  #   puts " "
-  #   # puts "About".yellow + " - About Studio Ghibli"
-  #   puts "Films".yellow + " - Studio Ghibli Film Collection"
-  #   puts "Exit".yellow
-  #   puts " "
-  # end
+  def sub_menu(film)
+    puts " "
+    puts "#{film.title}".upcase.red + " - ".blue + "#{film.release_date}"
+    puts " "
+    puts "#{film.description}".dark_green
+    puts " "
+    puts "Directed by: ".blue + "#{film.director}"
+    puts " "
+    puts "Produced by: ".blue + "#{film.producer}"
+    puts " "
+    puts "Rotten Tomatoes Score: ".blue + "#{film.rt_score}% ".red
 
-  # def valid_input
-  #   user_input = gets.strip.downcase
-  #   until user_input == "about" || user_input == "films" || user_input == "exit"
-  #     puts " "
-  #     puts "Invalid Entry".red
-  #     puts " "
-  #     puts "Please select from the menu items in yellow"
-  #     puts " "
-  #     user_input = gets.strip.downcase
-  #   end
-  #   user_input
-  # end
+    back_or_exit
+  end
 
-  # def main_menu
-  #   print_main_menu
-  #   user_input = valid_input
-  #   if user_input == "about"
-  #     #call scraper
-  #
-  #     #make new bio object
-  #     about_menu
-  #   elsif user_input == "films"
-  #     puts " "
-  #     puts "        STUDIO GHIBLI FILM COLLECTION".blue
-  #     puts " "
-  #   elsif user_input == "exit"
-  #     sweet_ascii_farwell
-  #   end
-  # end
+  def back_or_exit
+    puts " "
+    puts " "
+    puts "Back".yellow + " for more films or " + "Exit".yellow
+    puts " "
+    user_input = gets.strip.downcase
 
-  # def about_menu
-  #   puts " "
-  #   puts "             ABOUT STUDIO GHIBLI".blue
-  #   puts " "
-  #   puts "this is my sweet description"
-  #   puts " "
-  #   puts "Name".yellow + " Origin"
-  #   puts "History".yellow
-  #   puts "Animators".yellow + " and Character Designers"
-  #   puts "Links".yellow
-  # end
+
+    unless user_input == "back" || user_input == "exit"
+      puts "Invalid Entry".red
+      back_or_exit
+    end
+    if user_input == "back"
+      main_menu
+    elsif user_input == "exit"
+      sweet_ascii_farwell
+    end
+  end
+
+  def valid_input
+    user_input = gets.strip.downcase.to_i
+    until user_input > 0
+      puts " "
+      puts "Invalid Entry".red
+      puts " "
+      puts "Please select a number from the menu"
+      puts " "
+      user_input = gets.strip.downcase.to_i
+    end
+    user_input
+  end
+
 end
