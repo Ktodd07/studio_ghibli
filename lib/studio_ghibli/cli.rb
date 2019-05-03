@@ -264,7 +264,6 @@ class StudioGhibli::Cli
     puts " "
     puts "Which Species number would you like to know more about?"
     puts " "
-    binding.pry
     StudioGhibli::Species.all.each.with_index(1) {|species, i| puts "#{i}.".blue + " #{species.name.upcase}".dark_green }
     puts " "
     puts " "
@@ -295,5 +294,39 @@ class StudioGhibli::Cli
     back_main_or_exit("species")
   end
 
+  def vehicle_menu
+    puts " "
+    puts "             VEHICLES OF THE STUDIO GHIBLI UNIVERSE".blue
+    puts " "
+    puts "Which Vehicle number would you like to know more about?"
+    puts " "
+    StudioGhibli::Vehicle.all.each.with_index(1) {|vehicle, i| puts "#{i}.".blue + " #{vehicle.name.upcase}".dark_green }
+    puts " "
+    puts " "
+    puts "EXIT".red
+    input = valid_input
+    if input != nil && input > 0
+      vehicle = StudioGhibli::Vehicle.find_by(input)
+      vehicle_detail(vehicle)
+    end
+  end
+
+  def vehicle_detail(vehicle)
+    puts " "
+    puts "Vehicle:".blue + " #{detail(vehicle.name.upcase)}".red
+    puts " "
+    puts "Descripton: ".blue + detail(vehicle.description)
+    puts " "
+    puts "Vehicle Class: ".blue + detail(vehicle.vehicle_class)
+    puts " "
+    puts "Length: ".blue + "#{detail(vehicle.length)} meters"
+    puts " "
+    puts "Pilot: ".blue + "#{detail(vehicle.pilot)}"
+    puts " "
+    puts "Films: ".blue + " #{detail(vehicle.films)}"
+    puts " "
+    puts " "
+    back_main_or_exit("vehicle")
+  end
 
 end
