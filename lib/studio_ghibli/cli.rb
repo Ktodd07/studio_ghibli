@@ -65,11 +65,11 @@ class StudioGhibli::Cli
     elsif menu_item == 'people'
       people_menu
     elsif menu_item == 'locations'
-      locations_menu
+      location_menu
     elsif menu_item == 'species'
       species_menu
     elsif menu_item == 'vehicles'
-      vehicles_menu
+      vehicle_menu
     elsif menu_item == 'exit'
       sweet_ascii_farwell
     else
@@ -98,13 +98,69 @@ class StudioGhibli::Cli
     puts "EXIT".red
   end
 
+  def back_main_or_exit(prior_menu)
+    puts " "
+    puts " "
+    puts "Back".yellow + ", " +"Main".yellow + " Menu," + " or " + "Exit".red
+    puts " "
+    user_input = gets.strip.downcase
+    unless user_input == "back" || user_input == "main" || user_input == "exit"
+      puts "Invalid Entry".red
+      back_main_or_exit(prior_menu)
+    end
+    if user_input == "back" && prior_menu == "flims"
+      film_menu
+    elsif user_input == "back" && prior_menu == "people"
+      people_menu
+    elsif user_input == "back" && prior_menu == "location"
+      location_menu
+    elsif user_input == "back" && prior_menu == "species"
+      species_menu
+    elsif user_input == "back" && prior_menu == "vehicle"
+      vehicle_menu
+    elsif user_input == "main"
+      main_menu
+    elsif user_input == "exit"
+      sweet_ascii_farwell
+    end
+  end
+
+  def detail(attribute)
+    if attribute == nil
+      "Unknown"
+    elsif attribute == "NA"
+      "N/A"
+    elsif attribute == "TODO"
+      "No Data Available".red
+    else
+      attribute
+    end
+  end
+
+  def valid_input
+    user_input = gets.strip.downcase
+    if user_input == 'exit'
+      sweet_ascii_farwell
+    else
+      until user_input.to_i > 0
+        puts " "
+        puts "Invalid Entry".red
+        puts " "
+        puts "Please select a number from the menu"
+        puts " "
+        valid_input
+      end
+    end
+    user_input.to_i
+  end
+
   def film_menu
     puts " "
     puts "        STUDIO GHIBLI FILM COLLECTION".blue
     puts " "
     puts "Which film number would you like to know more about?"
     puts " "
-    StudioGhibli::Film.all.each.with_index(1) {|film, i| puts "#{i}.".blue + " #{film.title}".dark_green }
+    StudioGhibli::Film.all.each.with_index(1) {|film, i| puts "#{i}.".blue + " #{film.title.upcase}".dark_green }
     puts " "
     puts " "
     puts "EXIT".red
@@ -136,7 +192,7 @@ class StudioGhibli::Cli
     puts " "
     puts "Which character number would you like to know more about?"
     puts " "
-    StudioGhibli::Person.all.each.with_index(1) {|person, i| puts "#{i}.".blue + " #{person.name}".dark_green }
+    StudioGhibli::Person.all.each.with_index(1) {|person, i| puts "#{i}.".blue + " #{person.name.upcase}".dark_green }
     puts " "
     puts " "
     puts "EXIT".red
@@ -149,7 +205,7 @@ class StudioGhibli::Cli
 
   def people_detail(person)
     puts " "
-    puts "Name: ".blue + detail(person.name)
+    puts "Character: ".blue + "#{detail(person.name.upcase)}".red
     puts " "
     puts "Gender: ".blue + detail(person.gender)
     puts " "
@@ -166,45 +222,41 @@ class StudioGhibli::Cli
     back_main_or_exit("people")
   end
 
-  def back_main_or_exit(prior_menu)
+  def location_menu
+    puts " "
+    puts "                 STUDIO GHIBLI LOCATIONS".blue
+    puts " "
+    puts "Which location number would you like to know more about?"
+    puts " "
+    StudioGhibli::Location.all.each.with_index(1) {|location, i| puts "#{i}.".blue + " #{location.name.upcase}".dark_green }
     puts " "
     puts " "
-    puts "Back".yellow + ", " +"Main".yellow + " Menu," + " or " + "Exit".red
-    puts " "
-    user_input = gets.strip.downcase
-    unless user_input == "back" || user_input == "main" || user_input == "exit"
-      puts "Invalid Entry".red
-      back_main_or_exit(prior_menu)
-    end
-    if user_input == "back" && prior_menu == "flims"
-      film_menu
-    elsif user_input == "back" && prior_menu == "people"
-      people_menu
-    elsif user_input == "main"
-      main_menu
-    elsif user_input == "exit"
-      sweet_ascii_farwell
+    puts "EXIT".red
+    input = valid_input
+    if input != nil && input > 0
+      location = StudioGhibli::Location.find_by(input)
+      location_detail(location)
     end
   end
 
-  def detail(attribute)
-    attribute ? attribute : "Unknown"
+  def location_detail(location)
+    puts " "
+    puts "Location:".blue + "#{detail(location.name.upcase)}".red
+    puts " "
+    puts "Climate: ".blue + detail(location.climate)
+    puts " "
+    puts "Terrain: ".blue + detail(location.terrain)
+    puts " "
+    puts "Surface Water: ".blue + "#{detail(location.surface_water)}"
+    puts " "
+    puts "Residents: ".blue
+       location.residents.each {|resident| puts "   #{detail(resident)}"}
+    puts "Films: ".blue
+       location.films.each {|film| puts "   #{detail(film)}"}
+    puts " "
+    puts " "
+    back_main_or_exit("location")
   end
 
-  def valid_input
-    user_input = gets.strip.downcase
-    if user_input == 'exit'
-      sweet_ascii_farwell
-    else
-      until user_input.to_i > 0
-        puts " "
-        puts "Invalid Entry".red
-        puts " "
-        puts "Please select a number from the menu"
-        puts " "
-        valid_input
-      end
-    end
-    user_input.to_i
-  end
+
 end

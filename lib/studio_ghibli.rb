@@ -8,5 +8,6 @@ require_relative "./studio_ghibli/cli"
 require_relative "./studio_ghibli/api"
 require_relative "./studio_ghibli/film"
 require_relative "./studio_ghibli/person"
+require_relative "./studio_ghibli/location"
 
 # require_relative "./studio_ghibli/bio"

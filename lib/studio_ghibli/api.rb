@@ -35,7 +35,7 @@ class StudioGhibli::Api
     response.each do |hash|
       id = hash["id"]
       name = hash["name"]
-      gender = hash["gemder"]
+      gender = hash["gender"]
       age = hash["age"]
       eye_color = hash["eye_color"]
       hair_color = hash["hair_color"]
@@ -47,7 +47,18 @@ class StudioGhibli::Api
   end
 
   def create_locations(response)
+    response.each do |hash|
+      id = hash["id"]
+      name = hash["name"]
+      climate = hash["climate"]
+      terrain = hash["terrain"]
+      surface_water = hash["surface_water"]
+      residents = hash["residents"]
+      films = hash["films"]
+      url = hash["url"]
 
+      StudioGhibli::Location.new(id, name, climate, terrain, surface_water, residents, films, url)
+    end
   end
 
   def create_species(response)
