@@ -10,8 +10,8 @@ class StudioGhibli::Api
       create_people(response)
     elsif menu_item == 'locations'
       create_locations(response)
-    elsif menu_item == 'spieces'
-      create_spieces(response)
+    elsif menu_item == 'species'
+      create_species(response)
     elsif menu_item == 'vehicles'
       create_vehicles(response)
     end
@@ -62,7 +62,18 @@ class StudioGhibli::Api
   end
 
   def create_species(response)
+    response.each do |hash|
+      id = hash["id"]
+      name = hash["name"]
+      classification = hash["classification"]
+      eye_colors = hash["eye_colors"]
+      hair_colors = hash["hair_colors"]
+      url = hash["url"]
+      people = hash["people"]
+      films = hash["films"]
 
+      StudioGhibli::Species.new(id, name, classification, eye_colors, hair_colors, url, people, films)
+    end
   end
 
   def create_vehicles(response)

@@ -20,6 +20,7 @@ class StudioGhibli::Person
   end
 
   def self.find_by(menu_number)
+    #could find by id
     index = menu_number - 1
     self.all[index]
   end

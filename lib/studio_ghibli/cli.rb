@@ -158,7 +158,7 @@ class StudioGhibli::Cli
     puts " "
     puts "        STUDIO GHIBLI FILM COLLECTION".blue
     puts " "
-    puts "Which film number would you like to know more about?"
+    puts "Which Film number would you like to know more about?"
     puts " "
     StudioGhibli::Film.all.each.with_index(1) {|film, i| puts "#{i}.".blue + " #{film.title.upcase}".dark_green }
     puts " "
@@ -188,9 +188,9 @@ class StudioGhibli::Cli
 
   def people_menu
     puts " "
-    puts "                 STUDIO GHIBLI CHARACTERS".blue
+    puts "           CHARACTERS OF THE STUDIO GHIBLI UNIVERSE".blue
     puts " "
-    puts "Which character number would you like to know more about?"
+    puts "Which Character number would you like to know more about?"
     puts " "
     StudioGhibli::Person.all.each.with_index(1) {|person, i| puts "#{i}.".blue + " #{person.name.upcase}".dark_green }
     puts " "
@@ -224,9 +224,9 @@ class StudioGhibli::Cli
 
   def location_menu
     puts " "
-    puts "                 STUDIO GHIBLI LOCATIONS".blue
+    puts "           LOCATIONS IN THE STUDIO GHIBLI UNIVERSE".blue
     puts " "
-    puts "Which location number would you like to know more about?"
+    puts "Which Location number would you like to know more about?"
     puts " "
     StudioGhibli::Location.all.each.with_index(1) {|location, i| puts "#{i}.".blue + " #{location.name.upcase}".dark_green }
     puts " "
@@ -256,6 +256,43 @@ class StudioGhibli::Cli
     puts " "
     puts " "
     back_main_or_exit("location")
+  end
+
+  def species_menu
+    puts " "
+    puts "             SPECIES OF THE STUDIO GHIBLI UNIVERSE".blue
+    puts " "
+    puts "Which Species number would you like to know more about?"
+    puts " "
+    binding.pry
+    StudioGhibli::Species.all.each.with_index(1) {|species, i| puts "#{i}.".blue + " #{species.name.upcase}".dark_green }
+    puts " "
+    puts " "
+    puts "EXIT".red
+    input = valid_input
+    if input != nil && input > 0
+      species = StudioGhibli::Species.find_by(input)
+      species_detail(species)
+    end
+  end
+
+  def species_detail(species)
+    puts " "
+    puts "Species:".blue + "#{detail(species.name.upcase)}".red
+    puts " "
+    puts "Classification: ".blue + detail(species.classification)
+    puts " "
+    puts "Eye Colors: ".blue + detail(species.eye_colors)
+    puts " "
+    puts "Hair Colors: ".blue + "#{detail(species.hair_colors)}"
+    puts " "
+    puts "Characters: ".blue
+       species.people.each {|person| puts "   #{detail(person)}"}
+    puts "Films: ".blue
+       species.films.each {|film| puts "   #{detail(film)}"}
+    puts " "
+    puts " "
+    back_main_or_exit("species")
   end
 
 
