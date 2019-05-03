@@ -59,13 +59,17 @@ class StudioGhibli::Cli
   def main_menu
     print_main_menu
     menu_item = gets.strip.downcase
+    StudioGhibli::Api.new.fetch(menu_item)
     if menu_item == "films"
-      StudioGhibli::Api.new.fetch(menu_item)
       film_menu
     elsif menu_item == 'people'
+      people_menu
     elsif menu_item == 'locations'
+      locations_menu
     elsif menu_item == 'species'
+      species_menu
     elsif menu_item == 'vehicles'
+      vehicles_menu
     elsif menu_item == 'exit'
       sweet_ascii_farwell
     else
@@ -105,14 +109,13 @@ class StudioGhibli::Cli
     puts " "
     puts "EXIT".red
     input = valid_input
-    # binding.pry
     if input != nil && input > 0
       film = StudioGhibli::Film.find_by(input)
-      film_sub_menu(film)
+      film_detail(film)
     end
   end
 
-  def film_sub_menu(film)
+  def film_detail(film)
     puts " "
     puts "#{film.title}".upcase.red + " - ".blue + "#{film.release_date}"
     puts " "
@@ -124,10 +127,46 @@ class StudioGhibli::Cli
     puts " "
     puts "Rotten Tomatoes Score: ".blue + "#{film.rt_score}% ".red
 
-    back_main_or_exit
+    back_main_or_exit("films")
   end
 
-  def back_main_or_exit
+  def people_menu
+    puts " "
+    puts "                 STUDIO GHIBLI CHARACTERS".blue
+    puts " "
+    puts "Which character number would you like to know more about?"
+    puts " "
+    StudioGhibli::Person.all.each.with_index(1) {|person, i| puts "#{i}.".blue + " #{person.name}".dark_green }
+    puts " "
+    puts " "
+    puts "EXIT".red
+    input = valid_input
+    if input != nil && input > 0
+      person = StudioGhibli::Person.find_by(input)
+      people_detail(person)
+    end
+  end
+
+  def people_detail(person)
+    puts " "
+    puts "Name: ".blue + detail(person.name)
+    puts " "
+    puts "Gender: ".blue + detail(person.gender)
+    puts " "
+    puts "Age: ".blue + detail(person.age)
+    puts " "
+    puts "Hair: ".blue + "#{detail(person.eye_color.capitalize)} eyes, #{detail(person.hair_color.capitalize)} hair"
+    puts " "
+    puts "Films: ".blue
+       person.films.each {|film| puts "   #{film}"}
+    puts " "
+    puts "Species: ".blue + detail(person.species)
+    puts " "
+    puts " "
+    back_main_or_exit("people")
+  end
+
+  def back_main_or_exit(prior_menu)
     puts " "
     puts " "
     puts "Back".yellow + ", " +"Main".yellow + " Menu," + " or " + "Exit".red
@@ -135,10 +174,12 @@ class StudioGhibli::Cli
     user_input = gets.strip.downcase
     unless user_input == "back" || user_input == "main" || user_input == "exit"
       puts "Invalid Entry".red
-      back_main_or_exit
+      back_main_or_exit(prior_menu)
     end
-    if user_input == "back"
+    if user_input == "back" && prior_menu == "flims"
       film_menu
+    elsif user_input == "back" && prior_menu == "people"
+      people_menu
     elsif user_input == "main"
       main_menu
     elsif user_input == "exit"
@@ -146,13 +187,16 @@ class StudioGhibli::Cli
     end
   end
 
+  def detail(attribute)
+    attribute ? attribute : "Unknown"
+  end
+
   def valid_input
     user_input = gets.strip.downcase
     if user_input == 'exit'
       sweet_ascii_farwell
     else
-      user_input = user_input.to_i
-      until user_input > 0
+      until user_input.to_i > 0
         puts " "
         puts "Invalid Entry".red
         puts " "

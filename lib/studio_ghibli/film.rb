@@ -18,8 +18,8 @@ class StudioGhibli::Film
     @@all
   end
 
-  def self.find_by(film_number)
-    index = film_number - 1
+  def self.find_by(menu_number)
+    index = menu_number - 1
     self.all[index]
   end
 
