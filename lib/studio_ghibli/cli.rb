@@ -92,34 +92,18 @@ class StudioGhibli::Cli
   end
 
   def print_main_menu
-    puts " "
-    puts "           WELCOME TO STUDIO GHIBLI!".red
-    puts " "
-    puts " "
-    puts "What item would you like to know more about?".blue
-    puts " "
-    puts "FLIMS".yellow
-    puts " "
-    puts "PEOPLE".yellow
-    puts " "
-    puts "LOCATIONS".yellow
-    puts " "
-    puts "SPECIES".yellow
-    puts " "
-    puts "VEHICLES".yellow
-    puts " "
-    puts " "
-    puts "EXIT".red
-    puts " "
+    puts "\n           WELCOME TO STUDIO GHIBLI!\n".red
+    puts "\nWhat item would you like to know more about?\n".blue
+    puts "\nFLIMS".yellow
+    puts "\nPEOPLE".yellow
+    puts "\nLOCATIONS".yellow
+    puts "\nSPECIES".yellow
+    puts "\nVEHICLES".yellow
+    puts "\nEXIT\n".red
   end
 
   def back_main_or_exit(prior_menu)
-    puts " "
-    puts " "
-    puts " "
-    puts " "
-    puts "Back".yellow + ", " +"Main".yellow + " Menu," + " or " + "Exit".red
-    puts " "
+    puts "\n\n\n\nBack".yellow + ", " +"Main".yellow + " Menu," + " or " + "Exit\n".red
     user_input = gets.strip.downcase
     clear_term
     if user_input == "back"
@@ -158,11 +142,8 @@ class StudioGhibli::Cli
       0
     else
       until user_input.to_i > 0 && user_input.to_i <= obj_class.all.length
-        puts " "
-        puts "Invalid Entry".red
-        puts " "
-        puts "Please select a number from the menu"
-        puts " "
+        puts "\nInvalid Entry\n".red
+        puts "Please select a number from the menu\n"
         user_input = gets.strip.downcase
       end
       user_input.to_i
@@ -171,16 +152,10 @@ class StudioGhibli::Cli
 
   def film_menu
     obj_class = StudioGhibli::Film
-    puts " "
-    puts "        STUDIO GHIBLI FILM COLLECTION".blue
-    puts " "
-    puts "Which Film number would you like to know more about?"
-    puts " "
+    puts "\n        STUDIO GHIBLI FILM COLLECTION".blue
+    puts "\nWhich Film number would you like to know more about?\n"
     obj_class.all.each.with_index(1) {|film, i| puts "#{i}.".blue + " #{film.title.upcase}".dark_green }
-    puts " "
-    puts " "
-    puts "EXIT".red
-    puts " "
+    puts "\n\nEXIT\n".red
     input = valid_input(obj_class)
     return sweet_ascii_farwell if input == 0
     film = obj_class.find_by(input)
@@ -190,30 +165,19 @@ class StudioGhibli::Cli
   end
 
   def film_detail(film)
-    puts " "
-    puts "#{film.title}".upcase.red + " - ".blue + "#{film.release_date}"
-    puts " "
-    puts "#{film.description}".dark_green
-    puts " "
-    puts "Directed by: ".blue + "#{film.director}"
-    puts " "
-    puts "Produced by: ".blue + "#{film.producer}"
-    puts " "
-    puts "Rotten Tomatoes Score: ".blue + "#{film.rt_score}% ".red
+    puts "\n#{film.title}".upcase.red + " - ".blue + "#{film.release_date}"
+    puts "\n#{film.description}".dark_green
+    puts "\nDirected by: ".blue + "#{film.director}"
+    puts "\nProduced by: ".blue + "#{film.producer}"
+    puts "\nRotten Tomatoes Score: ".blue + "#{film.rt_score}% ".red
   end
 
   def people_menu
     obj_class = StudioGhibli::Person
-    puts " "
-    puts "              CHARACTERS OF THE STUDIO GHIBLI".blue
-    puts " "
-    puts "Which Character number would you like to know more about?"
-    puts " "
+    puts "\n              CHARACTERS OF THE STUDIO GHIBLI".blue
+    puts "\nWhich Character number would you like to know more about?\n"
     obj_class.all.each.with_index(1) {|person, i| puts "#{i}.".blue + " #{person.name.upcase}".dark_green }
-    puts " "
-    puts " "
-    puts "EXIT".red
-    puts " "
+    puts "\n\nEXIT\n".red
     input = valid_input(obj_class)
     return sweet_ascii_farwell if input == 0
     person = obj_class.find_by(input)
@@ -223,38 +187,26 @@ class StudioGhibli::Cli
   end
 
   def people_detail(person)
-    puts " "
-    puts "Character: ".blue + "#{detail(person.name.upcase)}".red
-    puts " "
-    puts "Gender: ".blue + detail(person.gender)
-    puts " "
-    puts "Age: ".blue + detail(person.age)
-    puts " "
-    puts "Facial features: ".blue + "#{detail(person.eye_color.capitalize)} eyes, #{detail(person.hair_color.capitalize)} hair"
-    puts " "
-    puts "Films: ".blue
+    puts "\nCharacter: ".blue + "#{detail(person.name.upcase)}".red
+    puts "\nGender: ".blue + detail(person.gender)
+    puts "\nAge: ".blue + detail(person.age)
+    puts "\nFacial features: ".blue + "#{detail(person.eye_color.capitalize)} eyes, #{detail(person.hair_color.capitalize)} hair"
+    puts "\nFilms: ".blue
        person.films.each do |film|
           film_obj = StudioGhibli::Film.find_by_id(film)
           puts "   #{film_obj.title}"
        end
-    puts " "
-    puts "Species: ".blue
+    puts "\nSpecies: ".blue
        species_obj = StudioGhibli::Species.find_by_id(person.species)
        puts "   #{species_obj.name}"
   end
 
   def location_menu
     obj_class = StudioGhibli::Location
-    puts " "
-    puts "           LOCATIONS IN THE STUDIO GHIBLI FILMS".blue
-    puts " "
-    puts "Which Location number would you like to know more about?"
-    puts " "
+    puts "\n           LOCATIONS IN THE STUDIO GHIBLI FILMS".blue
+    puts "\nWhich Location number would you like to know more about?\n"
     obj_class.all.each.with_index(1) {|location, i| puts "#{i}.".blue + " #{location.name.upcase}".dark_green }
-    puts " "
-    puts " "
-    puts "EXIT".red
-    puts " "
+    puts "\n\nEXIT\n".red
     input = valid_input(obj_class)
     return sweet_ascii_farwell if input == 0
     location = obj_class.find_by(input)
@@ -264,16 +216,11 @@ class StudioGhibli::Cli
   end
 
   def location_detail(location)
-    puts " "
-    puts "Location: ".blue + "#{detail(location.name.upcase)}".red
-    puts " "
-    puts "Climate: ".blue + detail(location.climate)
-    puts " "
-    puts "Terrain: ".blue + detail(location.terrain)
-    puts " "
-    puts "Surface Water: ".blue + "#{detail(location.surface_water)}"
-    puts " "
-    puts "Residents: ".blue
+    puts "\nLocation: ".blue + "#{detail(location.name.upcase)}".red
+    puts "\nClimate: ".blue + detail(location.climate)
+    puts "\nTerrain: ".blue + detail(location.terrain)
+    puts "\nSurface Water: ".blue + "#{detail(location.surface_water)}"
+    puts "\nResidents: ".blue
        location.residents.each do |resident|
          person_obj = StudioGhibli::Person.find_by_id(resident)
          if person_obj
@@ -292,16 +239,10 @@ class StudioGhibli::Cli
 
   def species_menu
     obj_class = StudioGhibli::Species
-    puts " "
-    puts "                 SPECIES OF STUDIO GHIBLI".blue
-    puts " "
-    puts "Which Species number would you like to know more about?"
-    puts " "
+    puts "\n                 SPECIES OF STUDIO GHIBLI".blue
+    puts "\nWhich Species number would you like to know more about?\n"
     obj_class.all.each.with_index(1) {|species, i| puts "#{i}.".blue + " #{species.name.upcase}".dark_green }
-    puts " "
-    puts " "
-    puts "EXIT".red
-    puts " "
+    puts "\n\nEXIT\n".red
     input = valid_input(obj_class)
     return sweet_ascii_farwell if input == 0
     species = obj_class.find_by(input)
@@ -311,16 +252,11 @@ class StudioGhibli::Cli
   end
 
   def species_detail(species)
-    puts " "
-    puts "Species: ".blue + "#{detail(species.name.upcase)}".red
-    puts " "
-    puts "Classification: ".blue + detail(species.classification)
-    puts " "
-    puts "Eye Colors: ".blue + detail(species.eye_colors)
-    puts " "
-    puts "Hair Colors: ".blue + "#{detail(species.hair_colors)}"
-    puts " "
-    puts "Characters: ".blue
+    puts "\nSpecies: ".blue + "#{detail(species.name.upcase)}".red
+    puts "\nClassification: ".blue + detail(species.classification)
+    puts "\nEye Colors: ".blue + detail(species.eye_colors)
+    puts "\nHair Colors: ".blue + "#{detail(species.hair_colors)}"
+    puts "\nCharacters: ".blue
       species.people.each do |person|
         person_obj = StudioGhibli::Person.find_by_id(person)
         if person_obj
@@ -338,16 +274,10 @@ class StudioGhibli::Cli
 
   def vehicle_menu
     obj_class = StudioGhibli::Vehicle
-    puts " "
-    puts "                 VEHICLES OF THE STUDIO GHIBLI".blue
-    puts " "
-    puts "Which Vehicle number would you like to know more about?"
-    puts " "
+    puts "\n                 VEHICLES OF THE STUDIO GHIBLI".blue
+    puts "\nWhich Vehicle number would you like to know more about?\n"
     obj_class.all.each.with_index(1) {|vehicle, i| puts "#{i}.".blue + " #{vehicle.name.upcase}".dark_green }
-    puts " "
-    puts " "
-    puts "EXIT".red
-    puts " "
+    puts "\n\nEXIT\n".red
     input = valid_input(obj_class)
     return sweet_ascii_farwell if input == 0
     vehicle = obj_class.find_by(input)
@@ -357,16 +287,11 @@ class StudioGhibli::Cli
   end
 
   def vehicle_detail(vehicle)
-    puts " "
-    puts "Vehicle: ".blue + " #{detail(vehicle.name.upcase)}".red
-    puts " "
-    puts "Descripton: ".blue + detail(vehicle.description)
-    puts " "
-    puts "Vehicle Class: ".blue + detail(vehicle.vehicle_class)
-    puts " "
-    puts "Length: ".blue + "#{detail(vehicle.length)} meters"
-    puts " "
-    puts "Pilot: ".blue
+    puts "\nVehicle: ".blue + " #{detail(vehicle.name.upcase)}".red
+    puts "\nDescripton: ".blue + detail(vehicle.description)
+    puts "\nVehicle Class: ".blue + detail(vehicle.vehicle_class)
+    puts "\nLength: ".blue + "#{detail(vehicle.length)} meters"
+    puts "\nPilot: ".blue
       person_obj = StudioGhibli::Person.find_by_id(vehicle.pilot)
       if person_obj
         puts "   #{person_obj.name}"
@@ -374,8 +299,7 @@ class StudioGhibli::Cli
         puts "   No Data Available".red
       end
 
-    puts " "
-    puts "Films: ".blue
+    puts "\nFilms: ".blue
       film_obj = StudioGhibli::Film.find_by_id(vehicle.films)
       puts "   #{detail(film_obj.title)}"
   end
