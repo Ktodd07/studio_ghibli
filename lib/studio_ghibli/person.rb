@@ -1,4 +1,6 @@
 class StudioGhibli::Person
+  extends StudioGhibli::Concerns::FindAndCreate
+  
   @@all = []
   attr_accessor :id, :name, :gender, :age, :eye_color, :hair_color, :films, :species, :url
 
@@ -34,7 +36,6 @@ class StudioGhibli::Person
       person.id == self.strip_url(id)
     end
   end
-
 
   def self.strip_url(url)
     url.gsub(/^[a-z]*\S{3}[a-z]*\S[a-z]*\S[a-z]*\S[a-z]*\S/, "")

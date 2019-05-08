@@ -12,4 +12,4 @@ require_relative "./studio_ghibli/location"
 require_relative "./studio_ghibli/species"
 require_relative "./studio_ghibli/vehicle"
 
-# require_relative "./studio_ghibli/bio"
+require_relative "./studio_ghibli/find_or_create"
