@@ -1,19 +1,16 @@
 class StudioGhibli::Film
   @@all = []
-  attr_reader :id, :title, :description, :director, :producer, :release_date, :rt_score
+  attr_accessor :id, :title, :description, :director, :producer, :release_date, :rt_score, :people, :species, :locations, :vehicles, :url
+  # attr_writer
 
-  def initialize(id, title, description, director, producer, release_date, rt_score)
-    @id = id,
-    @title = title,
-    @description = description,
-    @director = director,
-    @producer = producer,
-    @release_date = release_date,
-    @rt_score = rt_score
+  def initialize(attributes)
+    attributes.each do |attribute_name, attribute_value|
+      self.send("#{attribute_name}=", attribute_value)
+    end
 
     @@all << self
   end
-
+  
   def self.all
     @@all
   end
@@ -22,16 +19,8 @@ class StudioGhibli::Film
     if self.all.empty?
       response = StudioGhibli::Api.new.fetch(menu_item)
 
-      response.each do |hash|
-        id = hash["id"]
-        title = hash["title"]
-        description = hash["description"]
-        director = hash["director"]
-        producer = hash["producer"]
-        release_date = hash["release_date"]
-        rt_score = hash["rt_score"]
-
-        StudioGhibli::Film.new(id, title, description, director, producer, release_date, rt_score)
+      response.each do |attributes|
+        self.new(attributes)
       end
     end
   end
@@ -43,7 +32,7 @@ class StudioGhibli::Film
 
   def self.find_by_id(id)
     self.all.detect do |film|
-      film.id.first == self.strip_url(id)
+      film.id == self.strip_url(id)
     end
   end
 

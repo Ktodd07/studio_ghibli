@@ -1,16 +1,11 @@
 class StudioGhibli::Location
   @@all = []
-  attr_reader :id, :name, :climate, :terrain, :surface_water, :residents, :films, :url
+  attr_accessor :id, :name, :climate, :terrain, :surface_water, :residents, :films, :url
 
-  def initialize(id, name, climate, terrain, surface_water, residents, films, url)
-    @id = id
-    @name = name
-    @climate = climate
-    @terrain = terrain
-    @surface_water = surface_water
-    @residents = residents
-    @films = films
-    @url = url
+  def initialize(attributes)
+    attributes.each do |attribute_name, attribute_value|
+      self.send("#{attribute_name}=", attribute_value)
+    end
 
     @@all << self
   end
@@ -23,17 +18,8 @@ class StudioGhibli::Location
     if self.all.empty?
       response = StudioGhibli::Api.new.fetch(menu_item)
 
-      response.each do |hash|
-        id = hash["id"]
-        name = hash["name"]
-        climate = hash["climate"]
-        terrain = hash["terrain"]
-        surface_water = hash["surface_water"]
-        residents = hash["residents"]
-        films = hash["films"]
-        url = hash["url"]
-
-        StudioGhibli::Location.new(id, name, climate, terrain, surface_water, residents, films, url)
+      response.each do |attributes|
+        self.new(attributes)
       end
     end
   end

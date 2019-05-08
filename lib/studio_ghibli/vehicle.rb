@@ -1,16 +1,11 @@
 class StudioGhibli::Vehicle
   @@all = []
-  attr_reader :id, :name, :description, :vehicle_class, :length, :pilot, :films, :url
+  attr_accessor :id, :name, :description, :vehicle_class, :length, :pilot, :films, :url
 
-  def initialize(id, name, description, vehicle_class, length, pilot, films, url)
-    @id = id
-    @name = name
-    @description = description
-    @vehicle_class = vehicle_class
-    @length = length
-    @pilot = pilot
-    @films = films
-    @url = url
+  def initialize(attributes)
+    attributes.each do |attribute_name, attribute_value|
+      self.send("#{attribute_name}=", attribute_value)
+    end
 
     @@all << self
   end
@@ -23,17 +18,8 @@ class StudioGhibli::Vehicle
     if self.all.empty?
       response = StudioGhibli::Api.new.fetch(menu_item)
 
-      response.each do |hash|
-        id = hash["id"]
-        name = hash["name"]
-        description = hash["description"]
-        vehicle_class = hash["vehicle_class"]
-        length = hash["length"]
-        pilot = hash["pilot"]
-        films = hash["films"]
-        url = hash["url"]
-
-        StudioGhibli::Vehicle.new(id, name, description, vehicle_class, length, pilot, films, url)
+      response.each do |attributes|
+        self.new(attributes)
       end
     end
   end
