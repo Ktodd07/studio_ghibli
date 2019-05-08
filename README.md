@@ -19,6 +19,9 @@ To install this gem onto your local machine:
 
 [Studio Ghilbli CLI Data Gem Demo](https://youtu.be/cQ0gHDYokJ4 "Studio Ghilbli CLI Data Gem Demo")
 
+Additionaly, here is a blog post about creating my first gem:
+[Studio Ghilbli CLI Data Gem](https://capricious-slingshot.github.io/studio_ghibli_cli_data_gem "Studio Ghilbli CLI Data Gem Blog Post")
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/capricious-slingshot/studio_ghibli.
