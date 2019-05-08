@@ -2,6 +2,8 @@ require 'open-uri'
 require 'nokogiri'
 require 'httparty'
 
+require_relative "./studio_ghibli/findable"
+
 require_relative "./studio_ghibli/version"
 require_relative "./studio_ghibli/cli"
 require_relative "./studio_ghibli/api"
