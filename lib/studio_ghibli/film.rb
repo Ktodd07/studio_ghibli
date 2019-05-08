@@ -41,4 +41,14 @@ class StudioGhibli::Film
     self.all[index]
   end
 
+  def self.find_by_id(id)
+    self.all.detect do |film|
+      film.id.first == self.strip_url(id)
+    end
+  end
+
+  def self.strip_url(url)
+    url.gsub(/^[a-z]*\S{3}[a-z]*\S[a-z]*\S[a-z]*\S[a-z]*\S/, "")
+  end
+
 end

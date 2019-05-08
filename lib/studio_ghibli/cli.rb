@@ -16,7 +16,11 @@ class StudioGhibli::Cli
   def call
     clear_term
     sweet_ascii_greeting
-    sleep(1)
+    StudioGhibli::Film.find_or_create('films')
+    StudioGhibli::Person.find_or_create('people')
+    StudioGhibli::Location.find_or_create('locations')
+    StudioGhibli::Species.find_or_create('species')
+    StudioGhibli::Vehicle.find_or_create('vehicles')
     main_menu
   end
 
@@ -59,29 +63,24 @@ class StudioGhibli::Cli
 
     DOC
     puts " "
-    sleep(2)
+    sleep(1.5)
     clear_term
   end
 
   def main_menu
     print_main_menu
     menu_item = gets.strip.downcase
+
     clear_term
     if menu_item == 'films'
-      #talk to film class and find or create
-      StudioGhibli::Film.find_or_create(menu_item)
       film_menu
     elsif menu_item == 'people'
-      StudioGhibli::Person.find_or_create(menu_item)
       people_menu
     elsif menu_item == 'locations'
-      StudioGhibli::Location.find_or_create(menu_item)
       location_menu
     elsif menu_item == 'species'
-      StudioGhibli::Species.find_or_create(menu_item)
       species_menu
     elsif menu_item == 'vehicles'
-      StudioGhibli::Vehicle.find_or_create(menu_item)
       vehicle_menu
     elsif menu_item == 'exit'
       sweet_ascii_farwell
@@ -206,7 +205,7 @@ class StudioGhibli::Cli
   def people_menu
     obj_class = StudioGhibli::Person
     puts " "
-    puts "           CHARACTERS OF THE STUDIO GHIBLI UNIVERSE".blue
+    puts "              CHARACTERS OF THE STUDIO GHIBLI".blue
     puts " "
     puts "Which Character number would you like to know more about?"
     puts " "
@@ -231,18 +230,23 @@ class StudioGhibli::Cli
     puts " "
     puts "Age: ".blue + detail(person.age)
     puts " "
-    puts "Hair: ".blue + "#{detail(person.eye_color.capitalize)} eyes, #{detail(person.hair_color.capitalize)} hair"
+    puts "Facial features: ".blue + "#{detail(person.eye_color.capitalize)} eyes, #{detail(person.hair_color.capitalize)} hair"
     puts " "
     puts "Films: ".blue
-       person.films.each {|film| puts "   #{film}"}
+       person.films.each do |film|
+          film_obj = StudioGhibli::Film.find_by_id(film)
+          puts "   #{film_obj.title}"
+       end
     puts " "
-    puts "Species: ".blue + detail(person.species)
+    puts "Species: ".blue
+       species_obj = StudioGhibli::Species.find_by_id(person.species)
+       puts "   #{species_obj.name}"
   end
 
   def location_menu
     obj_class = StudioGhibli::Location
     puts " "
-    puts "           LOCATIONS IN THE STUDIO GHIBLI UNIVERSE".blue
+    puts "           LOCATIONS IN THE STUDIO GHIBLI FILMS".blue
     puts " "
     puts "Which Location number would you like to know more about?"
     puts " "
@@ -270,16 +274,26 @@ class StudioGhibli::Cli
     puts "Surface Water: ".blue + "#{detail(location.surface_water)}"
     puts " "
     puts "Residents: ".blue
-       location.residents.each {|resident| puts "   #{detail(resident)}"}
+       location.residents.each do |resident|
+         person_obj = StudioGhibli::Person.find_by_id(resident)
+         if person_obj
+           puts "   #{person_obj.name}"
+         else
+           puts "   No Data Available".red
+         end
+       end
     puts "Films: ".blue
-       location.films.each {|film| puts "   #{detail(film)}"}
+       location.films.each do |film|
+          film_obj = StudioGhibli::Film.find_by_id(film)
+          puts "   #{detail(film_obj.title)}"
+       end
 
   end
 
   def species_menu
     obj_class = StudioGhibli::Species
     puts " "
-    puts "             SPECIES OF THE STUDIO GHIBLI UNIVERSE".blue
+    puts "                 SPECIES OF STUDIO GHIBLI".blue
     puts " "
     puts "Which Species number would you like to know more about?"
     puts " "
@@ -307,15 +321,25 @@ class StudioGhibli::Cli
     puts "Hair Colors: ".blue + "#{detail(species.hair_colors)}"
     puts " "
     puts "Characters: ".blue
-       species.people.each {|person| puts "   #{detail(person)}"}
+      species.people.each do |person|
+        person_obj = StudioGhibli::Person.find_by_id(person)
+        if person_obj
+          puts "   #{person_obj.name}"
+        else
+          puts "   No Data Available".red
+        end
+      end
     puts "Films: ".blue
-       species.films.each {|film| puts "   #{detail(film)}"}
+      species.films.each do |film|
+         film_obj = StudioGhibli::Film.find_by_id(film)
+         puts "   #{detail(film_obj.title)}"
+      end
   end
 
   def vehicle_menu
     obj_class = StudioGhibli::Vehicle
     puts " "
-    puts "             VEHICLES OF THE STUDIO GHIBLI UNIVERSE".blue
+    puts "                 VEHICLES OF THE STUDIO GHIBLI".blue
     puts " "
     puts "Which Vehicle number would you like to know more about?"
     puts " "
@@ -342,8 +366,17 @@ class StudioGhibli::Cli
     puts " "
     puts "Length: ".blue + "#{detail(vehicle.length)} meters"
     puts " "
-    puts "Pilot: ".blue + "#{detail(vehicle.pilot)}"
+    puts "Pilot: ".blue
+      person_obj = StudioGhibli::Person.find_by_id(vehicle.pilot)
+      if person_obj
+        puts "   #{person_obj.name}"
+      else
+        puts "   No Data Available".red
+      end
+
     puts " "
-    puts "Films: ".blue + " #{detail(vehicle.films)}"
+    puts "Films: ".blue
+      film_obj = StudioGhibli::Film.find_by_id(vehicle.films)
+      puts "   #{detail(film_obj.title)}"
   end
 end

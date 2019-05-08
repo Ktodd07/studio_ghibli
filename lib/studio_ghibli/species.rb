@@ -42,4 +42,5 @@ class StudioGhibli::Species
     index = menu_number - 1
     self.all[index]
   end
+
 end

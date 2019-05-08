@@ -37,9 +37,10 @@ class StudioGhibli::Location
       end
     end
   end
-  
+
   def self.find_by(menu_number)
     index = menu_number - 1
     self.all[index]
   end
+
 end

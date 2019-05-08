@@ -43,4 +43,15 @@ class StudioGhibli::Person
     index = menu_number - 1
     self.all[index]
   end
+
+  def self.find_by_id(id)
+    self.all.detect do |person|
+      person.id == self.strip_url(id)
+    end
+  end
+
+
+  def self.strip_url(url)
+    url.gsub(/^[a-z]*\S{3}[a-z]*\S[a-z]*\S[a-z]*\S[a-z]*\S/, "")
+  end
 end
