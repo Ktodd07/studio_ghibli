@@ -14,7 +14,7 @@ To install this gem onto your local machine:
 
   Enjoy!
 
-##Usage
+## Usage
  A short video I made on how to use this gem:
 
 [Studio Ghilbli CLI Data Gem Demo](https://youtu.be/cQ0gHDYokJ4 "Studio Ghilbli CLI Data Gem Demo")
