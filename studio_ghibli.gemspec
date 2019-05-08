@@ -10,17 +10,17 @@ Gem::Specification.new do |spec|
   spec.email         = ["diapause@protonmail.com"]
 
   spec.summary       = %q{A Studio Ghibli Ruby gem that provides a Command Line Interface (CLI) to an external data source}
-  # spec.description   = %q{todo: Write a longer description or delete this line.}
-  spec.homepage      = "http://github.com"
+  spec.description   = %q{This gem hits a Studio Ghibli api and pulls down all information related to their films. You can search by film, character, location setting, character species, and vehicles for a more detailed description about each topic, including what films each appears in and characters it is related to.}
+  spec.homepage      = "https://github.com/capricious-slingshot/studio_ghibli"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+    # spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "http://github.com"
+    spec.metadata["source_code_uri"] = "https://github.com/capricious-slingshot/studio_ghibli"
     # spec.metadata["changelog_uri"] = "todo: Put your gem's CHANGELOG.md URL here."
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
