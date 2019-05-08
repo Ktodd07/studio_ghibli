@@ -6,3 +6,4 @@ gemspec
 gem 'nokogiri', '~> 1.6', '>= 1.6.8'
 gem 'httparty', '~> 0.17.0'
 gem 'colorize', '~> 0.8.1'
+gem 'pry', '~> 0.10.3'
