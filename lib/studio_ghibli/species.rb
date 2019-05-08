@@ -19,8 +19,26 @@ class StudioGhibli::Species
     @@all
   end
 
+  def self.find_or_create(menu_item)
+    if self.all.empty?
+      response = StudioGhibli::Api.new.fetch(menu_item)
+
+      response.each do |hash|
+        id = hash["id"]
+        name = hash["name"]
+        classification = hash["classification"]
+        eye_colors = hash["eye_colors"]
+        hair_colors = hash["hair_colors"]
+        url = hash["url"]
+        people = hash["people"]
+        films = hash["films"]
+
+        StudioGhibli::Species.new(id, name, classification, eye_colors, hair_colors, url, people, films)
+      end
+    end
+  end
+
   def self.find_by(menu_number)
-    #could find by id
     index = menu_number - 1
     self.all[index]
   end

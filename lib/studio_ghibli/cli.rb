@@ -66,17 +66,22 @@ class StudioGhibli::Cli
   def main_menu
     print_main_menu
     menu_item = gets.strip.downcase
-    StudioGhibli::Api.new.fetch(menu_item)
     clear_term
-    if menu_item == "films"
+    if menu_item == 'films'
+      #talk to film class and find or create
+      StudioGhibli::Film.find_or_create(menu_item)
       film_menu
     elsif menu_item == 'people'
+      StudioGhibli::Person.find_or_create(menu_item)
       people_menu
     elsif menu_item == 'locations'
+      StudioGhibli::Location.find_or_create(menu_item)
       location_menu
     elsif menu_item == 'species'
+      StudioGhibli::Species.find_or_create(menu_item)
       species_menu
     elsif menu_item == 'vehicles'
+      StudioGhibli::Vehicle.find_or_create(menu_item)
       vehicle_menu
     elsif menu_item == 'exit'
       sweet_ascii_farwell
