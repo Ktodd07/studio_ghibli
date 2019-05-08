@@ -2,15 +2,8 @@ class StudioGhibli::Species
   @@all = []
   attr_reader :id, :name, :classification, :eye_colors, :hair_colors, :url, :people, :films
 
-  def initialize(id, name, classification, eye_colors, hair_colors, url, people, films)
-    @id = id
-    @name = name
-    @classification = classification
-    @eye_colors = eye_colors
-    @hair_colors = hair_colors
-    @url = url
-    @people = people
-    @films = films
+  def initialize(attributes)
+    attributes.each {|k, v| instance_variable_set("@#{k}", v) unless v.nil?}
 
     @@all << self
   end
@@ -22,19 +15,7 @@ class StudioGhibli::Species
   def self.find_or_create(menu_item)
     if self.all.empty?
       response = StudioGhibli::Api.new.fetch(menu_item)
-
-      response.each do |hash|
-        id = hash["id"]
-        name = hash["name"]
-        classification = hash["classification"]
-        eye_colors = hash["eye_colors"]
-        hair_colors = hash["hair_colors"]
-        url = hash["url"]
-        people = hash["people"]
-        films = hash["films"]
-
-        StudioGhibli::Species.new(id, name, classification, eye_colors, hair_colors, url, people, films)
-      end
+      response.each { |hash| self.new(hash) }
     end
   end
 

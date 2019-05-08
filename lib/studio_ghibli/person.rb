@@ -2,15 +2,8 @@ class StudioGhibli::Person
   @@all = []
   attr_reader :id, :name, :gender, :age, :eye_color, :hair_color, :films, :species
 
-  def initialize(id, name, gender, age, eye_color, hair_color, films, species)
-    @id = id
-    @name = name
-    @gender = gender
-    @age = age
-    @eye_color = eye_color
-    @hair_color = hair_color
-    @films = films
-    @species = species
+  def initialize(attributes)
+    attributes.each {|k, v| instance_variable_set("@#{k}", v) unless v.nil?}
 
     @@all << self
   end
@@ -23,19 +16,7 @@ class StudioGhibli::Person
   def self.find_or_create(menu_item)
     if self.all.empty?
       response = StudioGhibli::Api.new.fetch(menu_item)
-
-      response.each do |hash|
-        id = hash["id"]
-        name = hash["name"]
-        gender = hash["gender"]
-        age = hash["age"]
-        eye_color = hash["eye_color"]
-        hair_color = hash["hair_color"]
-        films = hash["films"]
-        species = hash["species"]
-
-        StudioGhibli::Person.new(id, name, gender, age, eye_color, hair_color, films, species)
-      end
+      response.each { |hash| self.new(hash) }
     end
   end
 
@@ -49,7 +30,6 @@ class StudioGhibli::Person
       person.id == self.strip_url(id)
     end
   end
-
 
   def self.strip_url(url)
     url.gsub(/^[a-z]*\S{3}[a-z]*\S[a-z]*\S[a-z]*\S[a-z]*\S/, "")
