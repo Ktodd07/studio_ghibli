@@ -13,9 +13,7 @@ module Findable
   end
 
   def find_by_id(id)
-    self.all.detect do |film|
-      film.id == self.strip_url(id)
-    end
+    self.all.detect {|film| film.id == self.strip_url(id)}
   end
 
   def strip_url(url)

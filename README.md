@@ -6,7 +6,7 @@ This gem hits a Studio Ghibli api and pulls down all information related to thei
 To install this gem onto your local machine:  
 
 
-- clone the repository from https://github.com/capricious-slingshot/studio_ghibli
+- clone the repository from [GitHub](https://github.com/capricious-slingshot/studio_ghibli)
 - cd into the directory
 - After checking out the repo, run `bin/setup` to install dependencies
 - run `bundle exec rake install` from the command line
@@ -24,7 +24,7 @@ Additionaly, here is a blog post about creating my first gem:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/capricious-slingshot/studio_ghibli.
+Bug reports and pull requests are welcome on [GitHub](https://github.com/capricious-slingshot/studio_ghibli)
 
 ## License
 
